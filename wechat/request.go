@@ -43,7 +43,7 @@ func readString(respBytes []byte) string {
 	return string(respBytes)
 }
 
-func GetUrl(url string) (res string, err error) {
+func GetUrl(url string) (r string, err error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
@@ -51,7 +51,7 @@ func GetUrl(url string) (res string, err error) {
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
-	res = string(body)
-	fmt.Println("返回的结果", res)
+	r = string(body)
+	fmt.Println("返回的结果", r)
 	return
 }
