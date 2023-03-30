@@ -42,3 +42,16 @@ func readString(respBytes []byte) string {
 	}
 	return string(respBytes)
 }
+
+func GetUrl(url string) (res string, err error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	res = string(body)
+	fmt.Println("返回的结果", res)
+	return
+}
