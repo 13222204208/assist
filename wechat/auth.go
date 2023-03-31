@@ -73,3 +73,21 @@ func GetWechatH5OpenidAndAccessToken(appID, appSecret, code string) (openid, acc
 	accessToken = token.AccessToken
 	return
 }
+
+// 判断用户是否关注公众号
+func IsSubscribe(openid, accessToken string) (bool, error) {
+	url := "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN"
+	resp, err := http.Get(url)
+	if err != nil {
+		return false, err
+	}
+	defer resp.Body.Close()
+	var result struct {
+		Subscribe int `json:"subscribe"`
+	}
+	err = json.NewDecoder(resp.Body).Decode(&result)
+	if err != nil {
+		return false, err
+	}
+	return result.Subscribe == 1, nil
+}
